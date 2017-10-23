@@ -1,5 +1,21 @@
 {
   "dependencies": {
-    "puppeteer": "^0.12.0"
+    "puppeteer": "^0.12.0",
+    "ramda": "^0.25.0",
+    "ski-providers": "^0.4.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-syntax-flow": "^6.18.0",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "flow-bin": "^0.57.3",
+    "flow-typed": "^2.2.0"
+  },
+  "scripts": {
+    "build": "babel src --out-dir dist",
+    "test": "yarn build && node dist/test.js"
   }
 }
