@@ -1,21 +1,41 @@
 {
+  "name": "photon-prism",
+  "version": "0.1.0",
+  "description": "Testing framework for Analytic requests",
+  "author": "prem.pillai@gmail.com",
+  "license": "MIT",
+  "repository": "https://github.com/photon-project/prism",
+  "homepage": "https://github.com/photon-project/prism",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index",
   "dependencies": {
-    "puppeteer": "^0.12.0",
+    "fp-ts": "^0.6.6",
+    "puppeteer": "^0.13.0",
     "ramda": "^0.25.0",
-    "ski-providers": "^0.4.0"
+    "ski-providers": "^1.0.5",
+    "when-switch": "^0.2.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-plugin-syntax-flow": "^6.18.0",
-    "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "flow-bin": "^0.57.3",
-    "flow-typed": "^2.2.0"
+    "@types/chai": "^4.0.10",
+    "@types/mocha": "^2.2.44",
+    "@types/node": "^8.5.1",
+    "@types/puppeteer": "^0.13.9",
+    "@types/ramda": "^0.25.8",
+    "chai": "^4.1.2",
+    "mocha": "^3.5.3",
+    "ts-node": "^4.0.2",
+    "tslint": "^5.8.0",
+    "typescript": "^2.6.2",
+    "yarn": "^1.2.1"
   },
   "scripts": {
-    "build": "babel src --out-dir dist",
-    "test": "yarn build && node dist/test.js"
+    "lint": "tslint -p . --fix",
+    "test": "yarn lint && mocha -r ts-node/register -r source-map-support/register 'src/**/*.test.ts' --timeout=10000",
+    "compile": "tsc",
+    "release": "yarn compile && yarn test && yarn version && yarn publish",
+    "play": "ts-node ./play.ts"
   }
 }
