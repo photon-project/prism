@@ -12,7 +12,12 @@
   "main": "dist/index.js",
   "types": "dist/index",
   "dependencies": {
+    "@types/baconjs": "^0.7.33",
+    "baconjs": "^1.0.1",
     "fp-ts": "^0.6.6",
+    "highland": "^2.11.1",
+    "jsondiffpatch": "^0.2.5",
+    "most": "^1.7.2",
     "puppeteer": "^0.13.0",
     "ramda": "^0.25.0",
     "ski-providers": "^1.0.5",
@@ -20,6 +25,7 @@
   },
   "devDependencies": {
     "@types/chai": "^4.0.10",
+    "@types/highland": "^2.10.6",
     "@types/mocha": "^2.2.44",
     "@types/node": "^8.5.1",
     "@types/puppeteer": "^0.13.9",
