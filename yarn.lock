@@ -616,9 +616,9 @@ semver@^5.3.0:
   version "5.4.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.4.1.tgz#e059c09d8571f0540823733433505d3a2f00b18e"
 
-ski-providers@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/ski-providers/-/ski-providers-1.0.5.tgz#1f2ac6b85e3c75929327378d2f90c23dfc1d54ce"
+ski-providers@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/ski-providers/-/ski-providers-1.1.0.tgz#8aae6fa027a06c257fba770c8fc998b7e1211701"
   dependencies:
     moment "^2.18.1"
     querystring "^0.2.0"

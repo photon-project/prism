@@ -23,7 +23,8 @@
   },
   "include": [
     "./src/",
-    "types/Typeless.d.ts"
+    "types/Typeless.d.ts",
+    "./play.ts"
   ],
   "exclude": [
     "node_modules",

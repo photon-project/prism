@@ -7,6 +7,13 @@
       "type": "npm",
       "script": "play",
       "problemMatcher": []
+    },
+    {
+      "type": "typescript",
+      "tsconfig": "tsconfig.json",
+      "problemMatcher": [
+        "$tsc"
+      ]
     }
   ]
 }

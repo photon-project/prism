@@ -1,13 +1,12 @@
-import { WebRequestParam } from "./types/Types";
-import { toPairs, map } from "ramda";
-import * as querystring from "querystring";
+import * as querystring from 'querystring';
+import { defaultTo, map, toPairs } from 'ramda';
+import { WebRequestParam } from 'ski-providers';
+import { parse as UrlParse } from 'url';
 
-const URL = require("url");
-
-export const Parse = (url: string): WebRequestParam[] => {
-  const parsed = new URL.parse(url);
-  const data: WebRequestParam[] = map(createWebRequestParam, toPairs(querystring.parse(parsed.query)));
-  return data;
+export const parse = (url: string): WebRequestParam[] => {
+  const parsed = UrlParse(url);
+  const parsedQuery = defaultTo("", parsed.query) as string;
+  return map(createWebRequestParam, toPairs(querystring.parse(parsedQuery)));
 };
 
 const createWebRequestParam = (tuple: [string, string]): WebRequestParam => {

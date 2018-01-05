@@ -20,7 +20,7 @@
     "most": "^1.7.2",
     "puppeteer": "^0.13.0",
     "ramda": "^0.25.0",
-    "ski-providers": "^1.0.5",
+    "ski-providers": "^1.1.0",
     "when-switch": "^0.2.0"
   },
   "devDependencies": {
@@ -42,6 +42,7 @@
     "test": "yarn lint && mocha -r ts-node/register -r source-map-support/register 'src/**/*.test.ts' --timeout=10000",
     "compile": "tsc",
     "release": "yarn compile && yarn test && yarn version && yarn publish",
-    "play": "ts-node ./play.ts"
+    "play": "ts-node ./play.ts",
+    "debug": "node .dist/play.js"
   }
 }
