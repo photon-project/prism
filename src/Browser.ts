@@ -31,7 +31,7 @@ const runSteps = (page: Page, steps: Step[]): Promise<void>[] => {
     try {
       await applyStep(page, s);
     } catch (e) {
-      console.log(`Error running step: ${s.name}: `, e);
+      console.error(`Error running step: ${s.name}: `, e);
     }
   }, steps);
 };
@@ -39,11 +39,9 @@ const runSteps = (page: Page, steps: Step[]): Promise<void>[] => {
 const applyStep = (page: Page, step: Step): Promise<void> => {
   switch (step.name) {
     case "click":
-      console.log("clicking...");
       const clickStep = step as ClickStep;
       return page.click(clickStep.selector);
     case "wait":
-      console.log("waiting...");
       const waitStep = step as WaitStep;
       return sleep(waitStep.time);
     default:

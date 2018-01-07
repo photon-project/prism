@@ -45,4 +45,5 @@ export type Step = ClickStep | WaitStep;
 export type RunConfig = {
   eventMatchers: EventMatcher[]
   steps: Step[]
+  url: string;
 };

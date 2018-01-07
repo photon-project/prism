@@ -25,13 +25,13 @@ type MatchedRow = {
   envelope: WebRequestDataEnvelope;
 };
 
-export const Run = (url: string, config: RunConfig, action: Action = "compare"): TaskEither<string, any> => {
+export const Run = (config: RunConfig, action: Action = "compare"): TaskEither<{}, {}> => {
   const processor = action === "write" ? curry(writer) : curry(comparator);
   const providers = map(ei => ei.provider, config.eventMatchers);
   const masterPattern = SkiProviderHelpers.generateMasterPattern(providers);
 
   const wrdTe = flatten(taskEither)(
-    Launch(url, masterPattern, config.steps).map(stream => {
+    Launch(config.url, masterPattern, config.steps).map(stream => {
       return tryCatch(() => {
         const data = stream.collect().toPromise(Promise) as Promise<WebRequestData[]>;
         stream.end(); // clean up
@@ -58,13 +58,13 @@ export const Run = (url: string, config: RunConfig, action: Action = "compare"):
   }
 };
 
-const writer = (mr: MatchedRow): TaskEither<string, string> => {
+const writer = (mr: MatchedRow): TaskEither<{}, string> => {
   const snapshotFile = mr.snapshotFile;
   const wrps = mr.envelope.data;
   return WriteSnapshot(snapshotFile, JSON.stringify(wrps));
 };
 
-const comparator = (mr: MatchedRow): TaskEither<string, any> => {
+const comparator = (mr: MatchedRow): TaskEither<{}, any> => {
   const snapshotFile = mr.snapshotFile;
   const wrps = mr.envelope.data.params;
 
@@ -89,14 +89,14 @@ const safeJsonParse = (json: string): {} => {
   try {
     return JSON.parse(json);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return {};
   }
 };
 
-const parseParams = (wrd: WebRequestData): TaskEither<string, WebRequestDataEnvelope> => {
+const parseParams = (wrd: WebRequestData): TaskEither<{}, WebRequestDataEnvelope> => {
   const url = wrd.meta.requestUrl;
-  const provider = fromNullable(`Could not find a Provider for ${url}`)(SkiProviderHelpers.lookupByUrl(url));
+  const provider = fromNullable({error: `Could not find a Provider for ${url}`})(SkiProviderHelpers.lookupByUrl(url));
   const data = provider.map(p => {
     return {
       data: p.transformer(wrd),
@@ -106,14 +106,14 @@ const parseParams = (wrd: WebRequestData): TaskEither<string, WebRequestDataEnve
   return fromEither(data);
 };
 
-const filterForMatcher = (wrdes: WebRequestDataEnvelope[], em: EventMatcher): TaskEither<string, MatchedRow> => {
+const filterForMatcher = (wrdes: WebRequestDataEnvelope[], em: EventMatcher): TaskEither<{}, MatchedRow> => {
   const extracted = isEmpty(wrdes)
     ? wrdes[0]
     : find(wrde => {
         return all((a: boolean) => a, map(f => match(JsonPath.value(wrde.data, f.path), f.value), em.filters));
       }, wrdes);
 
-  const extractedEither = fromNullable("No matching events found")(extracted).map(d => {
+  const extractedEither = fromNullable({error: "No matching events found"})(extracted).map(d => {
     return {
       snapshotFile: em.snapshotFile,
       ignoreParams: em.ignoreParamKeysForComparison,
