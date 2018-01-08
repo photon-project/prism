@@ -8,8 +8,8 @@ steps:
     time: 2000
 eventMatchers:
   - provider: AdobeAnalyticsAppMeasurement
-    name: Save Property
-    snapshotFile: data/save_property.json
+    name: Save Property on Adobe
+    snapshotFile: data/adobe/save_property.json
     ignoreParamKeysForComparison:
      - Browser time
      - Marketing Cloud Visitor ID
@@ -21,8 +21,8 @@ eventMatchers:
       - path: $.meta.title
         value: event62
   - provider: Snowplow
-    name: Save Property
-    snapshotFile: data/save_property_snowplow.json
+    name: Save Property on Snowplow
+    snapshotFile: data/snowplow/save_property.json
     ignoreParamKeysForComparison:
       - dtm
       - eid
