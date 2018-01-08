@@ -1,0 +1,23 @@
+---
+url: 'https://www.realestate.com.au/sold/property-apartment-vic-highett-124470098'
+steps:
+  - name: wait
+    time: 1000
+  - name: click
+    selector: .map-expand-button__icon
+  - name: wait
+    time: 2000
+eventMatchers:
+  - provider: Snowplow
+    name: Expand Map
+    snapshotFile: data/expand_map.json
+    ignoreParamKeysForComparison:
+      - aid
+      - dtm
+      - eid
+      - sid
+      - stm
+      - duid
+    filters:
+      - path: $.meta.title
+        value: expand_map
