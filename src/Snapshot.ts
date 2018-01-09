@@ -1,6 +1,8 @@
 import { TaskEither, fromEither } from "fp-ts/lib/TaskEither";
-import { PathLike, readFileSync, writeFileSync } from "fs";
+import { PathLike, readFileSync, writeFileSync, mkdirSync } from "fs";
 import { Either, right, left } from "fp-ts/lib/Either";
+import { dirname } from "path";
+import { sync as mkdirpSync } from "mkdirp";
 
 export const ReadSnapshot = (snapshotPath: PathLike): TaskEither<{}, {}> => {
   return fromEither(readFile(snapshotPath));
@@ -21,6 +23,8 @@ const readFile = (filePath: PathLike): Either<{}, {}> => {
 
 const writeFile = (filePath: PathLike, contents: string): Either<{}, {}> => {
   try {
+    const dir = dirname(filePath.toString());
+    mkdirpSync(dir)
     writeFileSync(filePath, contents);
     return right({message: `Snapshot saved to ${filePath}`});
   } catch (e) {
