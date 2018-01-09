@@ -1,18 +1,29 @@
----
 url: 'https://www.realestate.com.au/sold/property-apartment-vic-highett-124470098'
 steps:
   - name: wait
     time: 1000
   - name: click
-    selector: .map-expand-button__icon
+    selector: .property-info__bookmark
   - name: wait
     time: 2000
 eventMatchers:
-  - provider: Snowplow
-    name: Expand Map
-    snapshotFile: data/expand_map.json
+  - provider: AdobeAnalyticsAppMeasurement
+    name: Save Property on Adobe
+    snapshotFile: data/adobe/save_property.json
     ignoreParamKeysForComparison:
-      - aid
+     - Browser time
+     - Marketing Cloud Visitor ID
+     - Prop72
+     - sdid
+     - eVar72
+     - Legacy Visitor ID
+    filters:
+      - path: $.meta.title
+        value: event62
+  - provider: Snowplow
+    name: Save Property on Snowplow
+    snapshotFile: data/snowplow/save_property.json
+    ignoreParamKeysForComparison:
       - dtm
       - eid
       - sid
@@ -20,4 +31,4 @@ eventMatchers:
       - duid
     filters:
       - path: $.meta.title
-        value: expand_map
+        value: save_property

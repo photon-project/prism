@@ -20,6 +20,7 @@ import { Delta } from "jsondiffpatch/src";
 type Action = "compare" | "write";
 
 type MatchedRow = {
+  name: string;
   snapshotFile: string;
   ignoreParams: string[];
   envelope: WebRequestDataEnvelope;
@@ -71,7 +72,7 @@ const comparator = (mr: MatchedRow): TaskEither<{}, any> => {
   return ReadSnapshot(snapshotFile)
     .map(d => propOr({}, "params", d))
     .map(transformParams)
-    .chain(curry(Compare)(mr.ignoreParams)(transformParams(wrps)))
+    .chain(curry(Compare)(mr.name)(mr.ignoreParams)(transformParams(wrps)))
 };
 
 const transformParams = (wrps: WebRequestParam[]): {} => {
@@ -115,6 +116,7 @@ const filterForMatcher = (wrdes: WebRequestDataEnvelope[], em: EventMatcher): Ta
 
   const extractedEither = fromNullable({error: "No matching events found"})(extracted).map(d => {
     return {
+      name: em.name,
       snapshotFile: em.snapshotFile,
       ignoreParams: em.ignoreParamKeysForComparison,
       envelope: d,

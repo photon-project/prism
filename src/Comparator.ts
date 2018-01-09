@@ -1,12 +1,18 @@
 import { DiffPatcher, Delta } from "jsondiffpatch";
 import { TaskEither, fromEither } from "fp-ts/lib/TaskEither";
-import { Either, fromNullable } from "fp-ts/lib/Either";
-import { omit } from "ramda";
+import { Either, fromNullable, tryCatch, right } from 'fp-ts/lib/Either';
+import { omit, isNil } from "ramda";
 
 const Differ = new DiffPatcher();
 
-export const Compare = (ignoreParams: string[], a: {}, b: {}): TaskEither<string, Delta> => {
+export const Compare = (matcherName: string, ignoreParams: string[], a: {}, b: {}): TaskEither<{}, {}> => {
   const filteredA = omit(ignoreParams, a);
   const filteredB = omit(ignoreParams, b);
-  return fromEither(fromNullable("No Difference")(Differ.diff(filteredA, filteredB)));
+  const diff = Differ.diff(filteredA, filteredB) || { message: "No difference" };
+  const cleanDiff = right({
+    name: matcherName,
+    diff: diff,
+  });
+
+  return fromEither(cleanDiff);
 };
