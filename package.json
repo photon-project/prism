@@ -61,6 +61,6 @@
     "compile": "tsc && ts-node ./scripts/CopyJsonFiles.ts && chmod +x ./dist/CommandLine.js",
     "release": "yarn compile && yarn test && yarn version && yarn publish",
     "play": "./dist/CommandLine.js -c config.yaml -s",
-    "debug": "node .dist/play.js"
+    "docs-serve": "gitbook serve"
   }
 }
