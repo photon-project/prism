@@ -19,6 +19,8 @@ import * as Emoji from 'node-emoji';
 const ConfigSchema = require('./schemas/config.json');
 
 const main = (): void => {
+  console.log("CWD:", process.cwd());
+  console.log("ARGS:", process.argv);
   const version = require("../package.json").version;
   commander
     .version(version)
